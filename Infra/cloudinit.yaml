@@ -1,0 +1,39 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+users:
+  - name: bebr
+    groups: [sudo]
+    shell: /bin/bash
+    lock_passwd: false
+    hashed_passwd: "$6$rounds=4096$w0FGQ8QdvGL4iPuh$80ezfgzVBAXo9QOjS2WZtKyYLwHH77mMVfOGYtmYOM62S3NLMKdRf0dMP0tCdoq1/hfbeLgKBQ0NCr5berAIN0"
+    ssh-authorized-keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGVN3K0yjKErqEcy7BWjC75BeJEv/TLeJsqgL8TquLKh pimpfada@gmail.com
+packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg
+  - lsb-release
+  - gnupg-agent
+  - software-properties-common
+  - wget
+  - jq
+  - git
+  - micro
+  - htop
+  - btop
+  - tree
+  - whois
+  - net-tools
+  - zsh
+runcmd:
+  - su -c 'whoami' - bebr
+  - sudo apt-get update -y
+  - sudo apt-get upgrade -y
+  - sudo snap install microk8s --classic --channel=1.25/stable
+  - microk8s status --wait-ready
+  - sudo usermod -a -G microk8s bebr
+  - sudo chown -f -R bebr ~/.kube
+  - newgrp microk8s
+  - reboot

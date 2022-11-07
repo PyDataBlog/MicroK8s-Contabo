@@ -1,0 +1,7 @@
+# Master Node
+
+microk8s add-node --token-ttl 3600
+
+## Worker Nodes
+
+microk8s join
