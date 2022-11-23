@@ -7,7 +7,7 @@ spec:
   hosts:
   - bot.demo.live
   gateways:
-  - bot-cluster-gateway
+  - public-gateway.istio-system.svc.cluster.local
   http:
   - match:
     - uri:
