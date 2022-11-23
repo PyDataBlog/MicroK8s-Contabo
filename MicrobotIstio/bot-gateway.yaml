@@ -1,0 +1,25 @@
+# gateway.yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: bot-cluster-gateway
+  # namespace: bot-demo
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - bot.demo.live
+    tls:
+      httpsRedirect: true
+  - port:
+      number: 443
+      name: https-url-1
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: "url-1-certs" # This should match the Certificate secretName

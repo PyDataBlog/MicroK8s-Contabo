@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+  name: microbot-ingress
+  labels:
+    name: microbot-ingress
+  namespace: bot-demo
+spec:
+  rules:
+  - host: bot.bcbebr.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: microbot-service
+            port:
+              number: 9100

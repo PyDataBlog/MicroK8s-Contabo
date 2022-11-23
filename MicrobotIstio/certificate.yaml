@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: url-1-certs
+  namespace: istio-system
+  annotations:
+    cert-manager.io/issue-temporary-certificate: "true"
+spec:
+  secretName: url-1-certs
+  issuerRef:
+    name: lets-encrypt-dev
+    kind: ClusterIssuer
+  commonName: bot.demo.live
+  dnsNames:
+  - bot.demo.live
