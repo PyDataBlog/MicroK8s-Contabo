@@ -24,4 +24,4 @@ spec:
     - "*"
     tls:
       mode: SIMPLE
-      credentialName: "url-1-certs" # This should match the Certificate secretName
+      credentialName: "url-certs" # This should match the Certificate secretName
