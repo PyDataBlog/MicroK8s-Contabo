@@ -13,3 +13,4 @@ spec:
   commonName: bot.demo.live
   dnsNames:
   - bot.demo.live
+  - "*.demo.live"

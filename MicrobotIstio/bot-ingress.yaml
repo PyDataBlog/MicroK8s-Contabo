@@ -9,7 +9,7 @@ metadata:
   namespace: bot-demo
 spec:
   rules:
-  - host: bot.bcbebr.com
+  - host: bot.demo.live
     http:
       paths:
       - pathType: Prefix
