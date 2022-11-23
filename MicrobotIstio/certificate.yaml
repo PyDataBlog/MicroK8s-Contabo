@@ -8,7 +8,7 @@ metadata:
 spec:
   secretName: url-1-certs
   issuerRef:
-    name: lets-encrypt-dev
+    name: letsencrypt-staging
     kind: ClusterIssuer
   commonName: bot.demo.live
   dnsNames:

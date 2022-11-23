@@ -3,7 +3,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: bot-cluster-gateway
-  # namespace: bot-demo
+  namespace: bot-demo
 spec:
   selector:
     istio: ingressgateway # use istio default controller
