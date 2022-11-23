@@ -7,14 +7,14 @@ spec:
   hosts:
   - bot.demo.live
   gateways:
-  - public-gateway.istio-system.svc.cluster.local
+  - istio-system/public-gateway
   http:
   - match:
     - uri:
         prefix: "/"
     route:
     - destination:
-        host: microbot-service.bot-demo.svc.cluster.local
+        host: microbot-service
         port:
           number: 9100
 ---
