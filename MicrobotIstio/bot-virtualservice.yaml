@@ -7,7 +7,7 @@ spec:
   hosts:
   - bot.demo.live
   gateways:
-  - cluster-gateway
+  - bot-cluster-gateway
   http:
   - match:
     - uri:
