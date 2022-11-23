@@ -20,6 +20,8 @@ spec:
       number: 443
       name: https-url-1
       protocol: HTTPS
+    hosts:
+    - bot.demo.live
     tls:
       mode: SIMPLE
       credentialName: "url-1-certs" # This should match the Certificate secretName
