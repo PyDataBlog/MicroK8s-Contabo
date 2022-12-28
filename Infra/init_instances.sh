@@ -2,7 +2,7 @@
 echo "Reading clound-init data"
 v=$(cat cloudinit.yaml)
 
-instances=(201023881 201023882 201040614)
+instances=(201103738 201103739 201103740)
 
 # Loop through instances and reinstall instance with cloud-init data
 for i in "${instances[@]}"

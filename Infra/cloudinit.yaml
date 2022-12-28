@@ -12,6 +12,9 @@ users:
 packages:
   - apt-transport-https
   - ca-certificates
+  - build-essential
+  - procps
+  - file
   - curl
   - gnupg
   - lsb-release
@@ -27,13 +30,30 @@ packages:
   - whois
   - net-tools
   - zsh
+  - duf
 runcmd:
   - su -c 'whoami' - bebr
-  - sudo apt-get update -y
-  - sudo apt-get upgrade -y
-  - sudo snap install microk8s --classic --channel=1.25/stable
-  - microk8s status --wait-ready
+  - echo '84.46.254.75	vmi1103738' | sudo tee -a /etc/hosts
+  - echo '84.46.254.76	vmi1103739' | sudo tee -a /etc/hosts
+  - echo '84.46.254.77	vmi1103740' | sudo tee -a /etc/hosts
+  - sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+  - echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+  - sudo mkdir -p /etc/apt/keyrings
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  - curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+  - echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+  - sudo apt-get update
+  - sudo apt-get install -y kubectl helm docker-ce
+  - sudo snap install microk8s --classic --channel=1.26/stable
   - sudo usermod -a -G microk8s bebr
   - sudo chown -f -R bebr ~/.kube
   - newgrp microk8s
-  - reboot
+  - microk8s status --wait-ready
+  - microk8s config > ~/.kube/config
+  - microk8s enable community
+  - sudo systemctl enable docker.service
+  - sudo systemctl enable containerd.service
+  - sudo systemctl enable docker
+  - sudo usermod -aG docker $USER
+  - newgrp docker

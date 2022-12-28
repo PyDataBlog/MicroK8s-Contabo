@@ -1,0 +1,38 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gateway
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: istio
+  namespace: gateway
+  annotations:
+    # Cert Manager specific: only if you automaticly issue certificate
+    # when readt, switch to production-cluster-issuer
+    cert-manager.io/cluster-issuer: production-cluster-issuer
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: default-http
+    hostname: "*.bebr.live"
+    port: 80 # requred for letsencrypt
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: All # requred for letsencrypt
+  - name: default-https
+    protocol: HTTPS # Other possible value is `TLS`
+    port: 443
+    hostname: "httpbin.bebr.live"
+    tls:
+      mode: Terminate # If protocol is `TLS`, `Passthrough` is a possible mode
+      certificateRefs:
+      - kind: Secret
+        group: ""
+        name: bebr-live-cert
+    allowedRoutes:
+      namespaces:
+        from: All

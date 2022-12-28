@@ -2,57 +2,52 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: microbot
-  name: microbot
-  namespace: bot-demo
+  namespace: httpbin
+  name: apiv2
 spec:
   # replicas: 1
   selector:
     matchLabels:
-      app: microbot
+      app: apiv2
   template:
     metadata:
       labels:
-        app: microbot
+        app: apiv2
     spec:
       containers:
-      - name: microbot
-        image: dontrebootme/microbot:v1
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
+      - image: kennethreitz/httpbin
+        name: apiv2
         ports:
         - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: microbot-svc
-  namespace: bot-demo
+  name: apiv2
+  namespace: httpbin
 spec:
-  selector:
-    app: microbot
   ports:
-  - port: 9100
+  - name: http
+    port: 8080
     targetPort: 80
+  selector:
+    app: apiv2
 ---
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
-  name: microbot-route
-  namespace: bot-demo
+  name: apiv2
+  namespace: httpbin
 spec:
   parentRefs:
   - name: istio
     namespace: gateway
-  hostnames: ["microbot.bebr.live"]
+  hostnames: ["httpbin.bebr.live"]
   rules:
   - matches:
     - path:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: microbot-svc
-      port: 9100
+    - name: apiv2
+      port: 8080

@@ -4,14 +4,14 @@ metadata:
   name: grafana-ingress
   namespace: observability
   annotations:
-    cert-manager.io/cluster-issuer: lets-encrypt
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   tls:
     - hosts:
-        - grafana.bebr.me
+        - grafana.bebr.live
       secretName: grafana-ingress-tls
   rules:
-    - host: grafana.bebr.me
+    - host: grafana.bebr.live
       http:
         paths:
           - pathType: Prefix

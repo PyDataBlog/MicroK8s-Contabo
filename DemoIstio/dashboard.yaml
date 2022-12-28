@@ -1,0 +1,18 @@
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: dashboard-route
+  namespace: kube-system
+spec:
+  parentRefs:
+  - name: gateway
+    namespace: istio-ingress
+  hostnames: ["dashboard.bebr.live"]
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: kubernetes-dashboard
+      port: 8443

@@ -1,0 +1,63 @@
+# apiVersion: gateway.networking.k8s.io/v1beta1
+# kind: Gateway
+# metadata:
+#   name: gateway
+#   namespace: istio-ingress
+# spec:
+#   gatewayClassName: istio
+#   listeners:
+#   - name: default
+#     # hostname: "*.bebr.live"
+#     port: 80
+#     protocol: HTTP
+#     allowedRoutes:
+#       namespaces:
+#         from: All
+# ---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: public-gateway
+  namespace: istio-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  gatewayClassName: istio
+  listeners:
+    # Listener 1.
+    - hostname: bebr.live
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: All
+      routes:
+        kind: HTTPRoute
+        parentRefs:
+          - name: public-gateway
+            kind: Gateway
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: public-gateway-tls
+            kind: Secret
+            group: core
+
+    # Listener 2: Same Secret name as Listener 1, with a different hostname.
+    - hostname: *.bebr.live
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: All
+      routes:
+        kind: HTTPRoute
+        parentRefs:
+          - name: public-gateway
+            kind: Gateway
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: public-gateway-tls
+            kind: Secret
+            group: core

@@ -4,14 +4,14 @@ metadata:
   name: prometheus-ingress
   namespace: observability
   annotations:
-    cert-manager.io/cluster-issuer: lets-encrypt
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   tls:
     - hosts:
-        - prometheus.bebr.me
+        - prometheus.bebr.live
       secretName: prometheus-ingress-tls
   rules:
-    - host: prometheus.bebr.me
+    - host: prometheus.bebr.live
       http:
         paths:
           - pathType: Prefix
