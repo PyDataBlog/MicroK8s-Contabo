@@ -23,7 +23,7 @@ spec:
     allowedRoutes:
       namespaces:
         from: All # requred for letsencrypt
-  - name: default-https
+  - name: https-httpbin
     protocol: HTTPS # Other possible value is `TLS`
     port: 443
     hostname: "httpbin.bebr.live"
@@ -32,7 +32,59 @@ spec:
       certificateRefs:
       - kind: Secret
         group: ""
-        name: bebr-live-cert
+        name: httpbin-bebr-live-cert
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: https-microbot
+    protocol: HTTPS # Other possible value is `TLS`
+    port: 443
+    hostname: "microbot.bebr.live"
+    tls:
+      mode: Terminate # If protocol is `TLS`, `Passthrough` is a possible mode
+      certificateRefs:
+      - kind: Secret
+        group: ""
+        name: microbot-bebr-live-cert
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: https-kiali
+    protocol: HTTPS # Other possible value is `TLS`
+    port: 443
+    hostname: "kiali.bebr.live"
+    tls:
+      mode: Terminate # If protocol is `TLS`, `Passthrough` is a possible mode
+      certificateRefs:
+      - kind: Secret
+        group: ""
+        name: kiali-bebr-live-cert
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: https-grafana
+    protocol: HTTPS # Other possible value is `TLS`
+    port: 443
+    hostname: "grafana.bebr.live"
+    tls:
+      mode: Terminate # If protocol is `TLS`, `Passthrough` is a possible mode
+      certificateRefs:
+      - kind: Secret
+        group: ""
+        name: grafana-bebr-live-cert
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: https-prometheus
+    protocol: HTTPS # Other possible value is `TLS`
+    port: 443
+    hostname: "prometheus.bebr.live"
+    tls:
+      mode: Terminate # If protocol is `TLS`, `Passthrough` is a possible mode
+      certificateRefs:
+      - kind: Secret
+        group: ""
+        name: prometheus-bebr-live-cert
     allowedRoutes:
       namespaces:
         from: All
